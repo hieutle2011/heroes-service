@@ -1,4 +1,4 @@
-name: "chainHero-network"
+name: "leadiq-network"
 
 # Describe what the target network is/does.
 description: "The network which will host my first blockchain"
@@ -30,7 +30,7 @@ client:
 
   # Root of the MSP directories with keys and certs. The Membership Service Providers is component that aims to offer an abstraction of a membership operation architecture.
   cryptoconfig:
-    path: "${GOPATH}/src/github.com/chainHero/heroes-service/fixtures/crypto-config"
+    path: "${GOPATH}/src/github.com/leadiq/heroes-service/network/crypto-config"
 
   # Some SDKs support pluggable KV stores, the properties under "credentialStore" are implementation specific
   credentialStore:
@@ -58,13 +58,13 @@ client:
 # [Optional]. But most apps would have this section so that channel objects can be constructed based on the content below.
 # If one of your application is creating channels, you might not use this
 channels:
-  chainhero:
+  leadiq:
     orderers:
-      - orderer.hf.chainhero.io
+      - orderer.hf.leadiq.com
 
     # Network entity which maintains a ledger and runs chaincode containers in order to perform operations to the ledger. Peers are owned and maintained by members.
     peers:
-      peer0.org1.hf.chainhero.io:
+      peer0.org1.hf.leadiq.com:
         # [Optional]. will this peer be sent transaction proposals for endorsement? The peer must
         # have the chaincode installed. The app can also use this property to decide which peers
         # to send the chaincode install request. Default: true
@@ -84,58 +84,58 @@ channels:
         # Default: true
         eventSource: true
 
-      peer1.org1.hf.chainhero.io:
+      peer1.org1.hf.leadiq.com:
 
 # List of participating organizations in this network
 organizations:
   Org1:
-    mspid: org1.hf.chainhero.io
-    cryptoPath: "peerOrganizations/org1.hf.chainhero.io/users/{userName}@org1.hf.chainhero.io/msp"
+    mspid: org1.hf.leadiq.com
+    cryptoPath: "peerOrganizations/org1.hf.leadiq.com/users/{userName}@org1.hf.leadiq.com/msp"
     peers:
-      - peer0.org1.hf.chainhero.io
-      - peer1.org1.hf.chainhero.io
+      - peer0.org1.hf.leadiq.com
+      - peer1.org1.hf.leadiq.com
     certificateAuthorities:
-      - ca.org1.hf.chainhero.io
+      - ca.org1.hf.leadiq.com
 
 # List of orderers to send transaction and channel create/update requests to.
 # The orderers consent on the order of transactions in a block to be committed to the ledger. For the time being only one orderer is needed.
 orderers:
-  orderer.hf.chainhero.io:
+  orderer.hf.leadiq.com:
     url: grpcs://localhost:7050
     grpcOptions:
-      ssl-target-name-override: orderer.hf.chainhero.io
+      ssl-target-name-override: orderer.hf.leadiq.com
       grpc-max-send-message-length: 15
     tlsCACerts:
-      path: "${GOPATH}/src/github.com/chainHero/heroes-service/fixtures/crypto-config/ordererOrganizations/hf.chainhero.io/tlsca/tlsca.hf.chainhero.io-cert.pem"
+      path: "${GOPATH}/src/github.com/leadiq/heroes-service/network/crypto-config/ordererOrganizations/hf.leadiq.com/tlsca/tlsca.hf.leadiq.com-cert.pem"
 
 # List of peers to send various requests to, including endorsement, query and event listener registration.
 peers:
-  peer0.org1.hf.chainhero.io:
+  peer0.org1.hf.leadiq.com:
     # this URL is used to send endorsement and query requests
     url: grpcs://localhost:7051
     # this URL is used to connect the EventHub and registering event listeners
     eventUrl: grpcs://localhost:7053
     # These parameters should be set in coordination with the keepalive policy on the server
     grpcOptions:
-      ssl-target-name-override: peer0.org1.hf.chainhero.io
+      ssl-target-name-override: peer0.org1.hf.leadiq.com
       grpc.http2.keepalive_time: 15
 
     tlsCACerts:
-      path: "${GOPATH}/src/github.com/chainHero/heroes-service/fixtures/crypto-config/peerOrganizations/org1.hf.chainhero.io/tlsca/tlsca.org1.hf.chainhero.io-cert.pem"
+      path: "${GOPATH}/src/github.com/leadiq/heroes-service/network/crypto-config/peerOrganizations/org1.hf.leadiq.com/tlsca/tlsca.org1.hf.leadiq.com-cert.pem"
 
-  peer1.org1.hf.chainhero.io:
+  peer1.org1.hf.leadiq.com:
     url: grpcs://localhost:8051
     eventUrl: grpcs://localhost:8053
     grpcOptions:
-      ssl-target-name-override: peer1.org1.hf.chainhero.io
+      ssl-target-name-override: peer1.org1.hf.leadiq.com
       grpc.http2.keepalive_time: 15
     tlsCACerts:
       # Certificate location absolute path
-      path: "${GOPATH}/src/github.com/chainHero/heroes-service/fixtures/crypto-config/peerOrganizations/org1.hf.chainhero.io/tlsca/tlsca.org1.hf.chainhero.io-cert.pem"
+      path: "${GOPATH}/src/github.com/leadiq/heroes-service/network/crypto-config/peerOrganizations/org1.hf.leadiq.com/tlsca/tlsca.org1.hf.leadiq.com-cert.pem"
 
 # Fabric-CA is a special kind of Certificate Authority provided by Hyperledger Fabric which allows certificate management to be done via REST APIs.
 certificateAuthorities:
-  ca.org1.hf.chainhero.io:
+  ca.org1.hf.leadiq.com:
     url: https://localhost:7054
     # the properties specified under this object are passed to the 'http' client verbatim when making the request to the Fabric-CA server
     httpOptions:
@@ -143,4 +143,4 @@ certificateAuthorities:
     registrar:
       enrollId: admin
       enrollSecret: adminpw
-    caName: ca.org1.hf.chainhero.io
+    caName: ca.org1.hf.leadiq.com

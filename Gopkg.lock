@@ -29,6 +29,15 @@
   revision = "cd527374f1e5bff4938207604a14f2e38a9cf512"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/chainHero/heroes-service"
+  packages = [
+    "blockchain",
+    "web/controllers"
+  ]
+  revision = "77f7bb08b68bdb8938db074e49306a21d57e1f9b"
+
+[[projects]]
   name = "github.com/cloudflare/cfssl"
   packages = [
     "api",
@@ -491,6 +500,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "2d56359a325aa6861cc958f81c2183df033b66614556e81d459ed26d1c47ef91"
+  inputs-digest = "69312dd30faae18ba9194fbfbc9350f5a4c7acfd4be563248716066a94376c96"
   solver-name = "gps-cdcl"
   solver-version = 1
