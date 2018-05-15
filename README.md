@@ -1088,8 +1088,8 @@ func (t *HeroesServiceChaincode) invoke(stub shim.ChaincodeStubInterface, args [
 			return shim.Error("Failed to update state of hello")
 		}
 
-		// Notify listeners that an event "eventInvoke" have been executed (check line 19 in the file invoke.go)
-		err = stub.SetEvent("eventInvoke", []byte{})
+		// Notify listeners that an event "eventPatch" have been executed (check line 19 in the file invoke.go)
+		err = stub.SetEvent("eventPatch", []byte{})
 		if err != nil {
 			return shim.Error(err.Error())
 		}
@@ -1123,17 +1123,17 @@ import (
 	"time"
 )
 
-// InvokeHello
-func (setup *FabricSetup) InvokeHello(value string) (string, error) {
+// PatchHello
+func (setup *FabricSetup) PatchHello(value string) (string, error) {
 
 	// Prepare arguments
 	var args []string
 	args = append(args, "invoke")
-	args = append(args, "invoke")
+	args = append(args, "patch")
 	args = append(args, "hello")
 	args = append(args, value)
 
-	eventID := "eventInvoke"
+	eventID := "eventPatch"
 
 	// Add data that will be visible in the proposal, like a description of the invoke request
 	transientDataMap := make(map[string][]byte)
@@ -1190,7 +1190,7 @@ func main() {
 	}
 
 	// Invoke the chaincode
-	txId, err := fSetup.InvokeHello("leadiq")
+	txId, err := fSetup.PatchHello("leadiq")
 	if err != nil {
 		fmt.Printf("Unable to invoke hello on the chaincode: %v\n", err)
 	} else {

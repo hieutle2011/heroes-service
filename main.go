@@ -2,20 +2,28 @@ package main
 
 import (
 	"fmt"
-	"github.com/leadiq/heroes-service/blockchain"
 	"os"
+
+	"github.com/leadiq/heroes-service/blockchain"
 )
 
 func main() {
 	// Definition of the Fabric SDK properties
 	fSetup := blockchain.FabricSetup{
-		OrgAdmin:        "Admin", 
-		OrgName:         "Org1", 
+		// Channel parameters
+		ChannelID:     "leadiq",
+		ChannelConfig: os.Getenv("GOPATH") + "/src/github.com/leadiq/heroes-service/network/artifacts/leadiq.channel.tx",
+
+		// Chaincode parameters
+		ChainCodeID:     "heroes-service",
+		ChaincodeGoPath: os.Getenv("GOPATH"),
+		ChaincodePath:   "github.com/leadiq/heroes-service/chaincode/",
+		OrgAdmin:        "Admin",
+		OrgName:         "Org1",
 		ConfigFile:      "config.yaml",
-		
-		// Channel parameters 
-		ChannelID:       "leadiq",
-		ChannelConfig:   os.Getenv("GOPATH") + "/src/github.com/leadiq/heroes-service/network/artifacts/leadiq.channel.tx",
+
+		// User parameters
+		UserName: "User1",
 	}
 
 	// Initialization of the Fabric SDK from the previously set properties
@@ -23,4 +31,35 @@ func main() {
 	if err != nil {
 		fmt.Printf("Unable to initialize the Fabric SDK: %v\n", err)
 	}
+
+	// Install and instantiate the chaincode
+	err = fSetup.InstallAndInstantiateCC()
+	if err != nil {
+		fmt.Printf("Unable to install and instantiate the chaincode: %v\n", err)
+	}
+
+	// Query the chaincode
+	response, err := fSetup.QueryHello()
+	if err != nil {
+		fmt.Printf("Unable to query hello on the chaincode: %v\n", err)
+	} else {
+		fmt.Printf("Response from the query hello: %s\n", response)
+	}
+
+	// Invoke the chaincode
+	txID, err := fSetup.PatchHello("something")
+	if err != nil {
+		fmt.Printf("Unable to invoke hello on the chaincode: %v\n", err)
+	} else {
+		fmt.Printf("Successfully invoke hello, transaction ID: %s\n", txID)
+	}
+
+	// Query again the chaincode
+	response, err = fSetup.QueryHello()
+	if err != nil {
+		fmt.Printf("Unable to query hello on the chaincode: %v\n", err)
+	} else {
+		fmt.Printf("Response from the query hello: %s\n", response)
+	}
+
 }

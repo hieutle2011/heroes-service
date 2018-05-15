@@ -2,6 +2,8 @@ package blockchain
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/hyperledger/fabric-sdk-go/api/apitxn/chclient"
 	chmgmt "github.com/hyperledger/fabric-sdk-go/api/apitxn/chmgmtclient"
 	resmgmt "github.com/hyperledger/fabric-sdk-go/api/apitxn/resmgmtclient"
@@ -9,7 +11,6 @@ import (
 	packager "github.com/hyperledger/fabric-sdk-go/pkg/fabric-client/ccpackager/gopackager"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
 	"github.com/hyperledger/fabric-sdk-go/third_party/github.com/hyperledger/fabric/common/cauthdsl"
-	"time"
 )
 
 // FabricSetup implementation
@@ -107,8 +108,8 @@ func (setup *FabricSetup) InstallAndInstantiateCC() error {
 	// Set up chaincode policy
 	// The chaincode policy is required if your transactions must follow some specific rules
 	// If you don't provide any policy every transaction will be endorsed, and it's probably not what you want
-	// In this case, we set the rule to : Endorse the transaction if the transaction have been signed by a member from the org "org1.hf.chainhero.io"
-	ccPolicy := cauthdsl.SignedByAnyMember([]string{"org1.hf.chainhero.io"})
+	// In this case, we set the rule to : Endorse the transaction if the transaction have been signed by a member from the org "org1.hf.leadiq.com"
+	ccPolicy := cauthdsl.SignedByAnyMember([]string{"org1.hf.leadiq.com"})
 
 	// Instantiate our chaincode on org peers
 	// The resource management client tells to all peers in its channel to instantiate the chaincode previously installed

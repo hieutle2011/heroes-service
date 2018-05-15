@@ -2,21 +2,22 @@ package blockchain
 
 import (
 	"fmt"
-	"github.com/hyperledger/fabric-sdk-go/api/apitxn/chclient"
 	"time"
+
+	"github.com/hyperledger/fabric-sdk-go/api/apitxn/chclient"
 )
 
-// InvokeHello
-func (setup *FabricSetup) InvokeHello(value string) (string, error) {
+// PatchHello
+func (setup *FabricSetup) PatchHello(value string) (string, error) {
 
 	// Prepare arguments
 	var args []string
 	args = append(args, "invoke")
-	args = append(args, "invoke")
+	args = append(args, "patch")
 	args = append(args, "hello")
 	args = append(args, value)
 
-	eventID := "eventInvoke"
+	eventID := "eventPatch"
 
 	// Add data that will be visible in the proposal, like a description of the invoke request
 	transientDataMap := make(map[string][]byte)

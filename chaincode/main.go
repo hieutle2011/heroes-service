@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
 )
@@ -59,8 +60,8 @@ func (t *HeroesServiceChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Res
 	}
 
 	// The update argument will manage all update in the ledger
-	if args[0] == "invoke" {
-		return t.invoke(stub, args)
+	if args[0] == "patch" {
+		return t.patch(stub, args)
 	}
 
 	// If the arguments given don’t match any function, we return an error
@@ -97,7 +98,7 @@ func (t *HeroesServiceChaincode) query(stub shim.ChaincodeStubInterface, args []
 
 // invoke
 // Every functions that read and write in the ledger will be here
-func (t *HeroesServiceChaincode) invoke(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+func (t *HeroesServiceChaincode) patch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	fmt.Println("########### HeroesServiceChaincode invoke ###########")
 
 	if len(args) < 2 {
@@ -113,8 +114,8 @@ func (t *HeroesServiceChaincode) invoke(stub shim.ChaincodeStubInterface, args [
 			return shim.Error("Failed to update state of hello")
 		}
 
-		// Notify listeners that an event "eventInvoke" have been executed (check line 19 in the file invoke.go)
-		err = stub.SetEvent("eventInvoke", []byte{})
+		// Notify listeners that an event "eventPatch" have been executed (check line 19 in the file patch.go)
+		err = stub.SetEvent("eventPatch", []byte{})
 		if err != nil {
 			return shim.Error(err.Error())
 		}

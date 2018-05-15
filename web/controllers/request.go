@@ -16,7 +16,7 @@ func (app *Application) RequestHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	if r.FormValue("submitted") == "true" {
 		helloValue := r.FormValue("hello")
-		txid, err := app.Fabric.InvokeHello(helloValue)
+		txid, err := app.Fabric.PatchHello(helloValue)
 		if err != nil {
 			http.Error(w, "Unable to invoke hello in the blockchain", 500)
 		}
