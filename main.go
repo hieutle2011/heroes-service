@@ -62,4 +62,12 @@ func main() {
 		fmt.Printf("Response from the query hello: %s\n", response)
 	}
 
+	// Query again the chaincode
+	response, err = fSetup.QueryHelloHistory()
+	if err != nil {
+		fmt.Printf("Unable to query hello on the chaincode: %v\n", err)
+	} else {
+		fmt.Printf("Response from the query hello history: %s\n", response)
+	}
+
 }

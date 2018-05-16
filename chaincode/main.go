@@ -64,6 +64,10 @@ func (t *HeroesServiceChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Res
 		return t.patch(stub, args)
 	}
 
+	if args[0] == "queryHistory" {
+		return t.queryHistory(stub, args)
+	}
+
 	// If the arguments given don’t match any function, we return an error
 	return shim.Error("Unknown action, check the first argument")
 }
@@ -90,6 +94,49 @@ func (t *HeroesServiceChaincode) query(stub shim.ChaincodeStubInterface, args []
 
 		// Return this value in response
 		return shim.Success(state)
+	}
+
+	// If the arguments given don’t match any function, we return an error
+	return shim.Error("Unknown query action, check the second argument.")
+}
+
+func (t *HeroesServiceChaincode) queryHistory(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	fmt.Println("########### HeroesServiceChaincode query ###########")
+
+	// Check whether the number of arguments is sufficient
+	if len(args) < 2 {
+		return shim.Error("The number of arguments is insufficient.")
+	}
+
+	key := args[1]
+
+	// Like the Invoke function, we manage multiple type of query requests with the second argument.
+	// We also have only one possible argument: hello
+	if key == "hello" {
+
+		// Get the state of the value matching the key hello in the ledger
+		iter, err := stub.GetHistoryForKey("hello")
+
+		if err != nil {
+			errMsg := fmt.Sprintf("[ERROR] cannot retrieve history for key <%s>, due to %s", key, err)
+			fmt.Println(errMsg)
+			return shim.Error(errMsg)
+		}
+
+		var history string
+		for iter.HasNext() {
+			modification, err := iter.Next()
+			if err != nil {
+				errMsg := fmt.Sprintf("[ERROR] cannot read record modification for key %s, id <%s>, due to %s", key, err)
+				fmt.Println(errMsg)
+				return shim.Error(errMsg)
+			}
+			prevValue := string(modification.Value)
+			history += fmt.Sprintf(", %s", prevValue)
+			fmt.Println("Returning information about", prevValue)
+		}
+		// Return this value in response
+		return shim.Success([]byte(history))
 	}
 
 	// If the arguments given don’t match any function, we return an error
